@@ -16,7 +16,7 @@
     Twitter: https://twitter.com/harrythambi
     GitHub: https://github.com/harrythambi/
     Repo: https://github.com/harrythambi/esxi-bootable-usb-kickstart
-    
+
     .EXAMPLE
     # The following Example uses a ` Backtick to split a single command to multiple lines, easier to manage and read. Do not get confuse with apostrophe '
 
@@ -65,7 +65,8 @@ $usbDisks = Get-Disk | Where BusType -eq 'USB' | Select 'Number','FriendlyName',
 Foreach ($disk in $usbDisks) {
     Write-Host "Disk Number: " $disk.Number
     Write-Host "Disk Name: " $disk.FriendlyName
-    Write-Host "Disk Size: " $disk.size
+    $size = ($disk.size)/1GB
+    Write-Host "Disk Size: " $size "GB"
     Write-Host " "
 }
 
@@ -95,7 +96,7 @@ if (-not $fileStatus) {
 }
 Write-Output "INFO:     ESXi iso file exists"
 Write-Output "INFO:     Mounting ESXi iso"
-Mount-DiskImage -ImagePath $isoPath | Out-Null
+Mount-DiskImage -ImagePath (get-item $isoPath).FullName | Out-Null
 $isoMountDrive = $(Get-CimInstance Win32_LogicalDisk | ?{ $_.DriveType -eq 5} | Where VolumeName -match "ESXI").DeviceID
 
 Write-Output "INFO:     Copying contents of ESXi iso to USB"  
