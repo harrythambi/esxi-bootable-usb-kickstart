@@ -32,36 +32,62 @@
 #>
 
 param(
-    [Parameter(Mandatory)]
-    [string]$isoPath,
-
-    [Parameter()]
-    [string]$diskNum,
-
-    [Parameter()]
-    [string]$ip,
-
-    [Parameter()]
-    [string]$netmask, 
-
-    [Parameter()]
-    [string]$gateway,
-
-    [Parameter()]
-    [string]$hostname,
-
-    [Parameter()]
-    [string]$nameserver,
-
-    [Parameter()]
-    [string]$vlan,
-
-    [Parameter()]
-    [string]$rootpw
+    [Parameter(Mandatory)][string]$isoPath,
+    [Parameter()][string]$diskNum,
+    [Parameter()][string]$ip,
+    [Parameter()][string]$netmask, 
+    [Parameter()][string]$gateway,
+    [Parameter()][string]$hostname,
+    [Parameter()][string]$nameserver,
+    [Parameter()][string]$vlan,
+    [Parameter()][string]$rootpw
 )
+Write-Output ""
+
+$welcome = @"
+=====================================================================================================
+
+HH   HH   AAA   RRRRRR  RRRRRR  YY   YY
+HH   HH  AAAAA  RR   RR RR   RR YY   YY
+HHHHHHH AA   AA RRRRRR  RRRRRR   YYYYY 
+HH   HH AAAAAAA RR  RR  RR  RR    YYY  
+HH   HH AA   AA RR   RR RR   RR   YYY  
+                                        
+TTTTTTT HH   HH   AAA   MM    MM BBBBB   IIIII        CCCCC   OOOOO  MM    MM 
+  TTT   HH   HH  AAAAA  MMM  MMM BB   B   III        CC    C OO   OO MMM  MMM 
+  TTT   HHHHHHH AA   AA MM MM MM BBBBBB   III        CC      OO   OO MM MM MM 
+  TTT   HH   HH AAAAAAA MM    MM BB   BB  III   ...  CC    C OO   OO MM    MM 
+  TTT   HH   HH AA   AA MM    MM BBBBBB  IIIII  ...   CCCCC   OOOO0  MM    MM 
+
+=====================================================================================================
+
+EEEEEEE  SSSSS  XX    XX IIIII       BBBBB    OOOOO   OOOOO  TTTTTTT   AAA   BBBBB   LL      EEEEEEE 
+EE      SS       XX  XX   III        BB   B  OO   OO OO   OO   TTT    AAAAA  BB   B  LL      EE      
+EEEEE    SSSSS    XXXX    III        BBBBBB  OO   OO OO   OO   TTT   AA   AA BBBBBB  LL      EEEEE   
+EE           SS  XX  XX   III        BB   BB OO   OO OO   OO   TTT   AAAAAAA BB   BB LL      EE      
+EEEEEEE  SSSSS  XX    XX IIIII       BBBBBB   OOOO0   OOOO0    TTT   AA   AA BBBBBB  LLLLLLL EEEEEEE 
+                                                                                                
+KK  KK IIIII  CCCCC  KK  KK  SSSSS  TTTTTTT   AAA   RRRRRR  TTTTTTT       UU   UU  SSSSS  BBBBB   
+KK KK   III  CC    C KK KK  SS        TTT    AAAAA  RR   RR   TTT         UU   UU SS      BB   B  
+KKKK    III  CC      KKKK    SSSSS    TTT   AA   AA RRRRRR    TTT         UU   UU  SSSSS  BBBBBB  
+KK KK   III  CC    C KK KK       SS   TTT   AAAAAAA RR  RR    TTT         UU   UU      SS BB   BB 
+KK  KK IIIII  CCCCC  KK  KK  SSSSS    TTT   AA   AA RR   RR   TTT          UUUUU   SSSSS  BBBBBB  
+                                                                                            
+SSSSS   CCCCC  RRRRRR  IIIII PPPPPP  TTTTTTT 
+SS      CC     RR   RR  III  PP   PP   TTT   
+SSSSS  CC      RRRRRR   III  PPPPPP    TTT   
+   SS  CC      RR  RR   III  PP        TTT   
+SSSSS   CCCCC  RR   RR IIIII PP        TTT   
+
+=====================================================================================================           
+"@
+
+Write-Output $welcome
+Write-Output ""
 
 $usbDisks = Get-Disk | Where BusType -eq 'USB' | Select 'Number','FriendlyName', 'size'
-
+Write-Host "INFO:     Listing connected USB Flash Drives"
+Write-Host " "
 Foreach ($disk in $usbDisks) {
     Write-Host "Disk Number: " $disk.Number
     Write-Host "Disk Name: " $disk.FriendlyName
